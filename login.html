@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+
+    <!-- Basic Meta -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="Little Loom is a premium baby and kids clothing store offering stylish outfits, school uniforms, seasonal collections, gift sets, and custom order solutions with comfort and quality.">
+    <meta name="keywords"
+        content="Little Loom, Baby Clothing, Kids Fashion, School Uniforms, Gift Sets, Children's Clothing, Custom Orders">
+    <meta name="author" content="Little Loom">
+
+    <!-- Title -->
+    <title>Little Loom</title>
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="images/favicon.png">
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Mulish:wght@300;400;500;600;700;800&family=Sora:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="css/style.css">
+
+</head>
+
+<body>
+
+
+
+    <section class="auth-page">
+
+        <!-- Top Right Controls -->
+
+        <div class="auth-controls">
+
+            <button class="dark-mode-toggle" id="themeToggle">
+                <i class="fa-solid fa-moon"></i>
+            </button>
+
+            <button class="rtl-toggle" id="rtlToggle">
+                <i class="fa-solid fa-globe"></i>
+            </button>
+
+        </div>
+
+        <div class="auth-card">
+
+            <a href="index.html" class="auth-logo">
+
+                <img src="images/logo.png" alt="Little Loom Logo">
+
+            </a>
+
+            <span class="auth-subtitle">
+
+                Welcome Back
+
+            </span>
+
+            <h1>
+
+                Sign In To Your Account
+
+            </h1>
+
+            <p>
+
+                Enter your details below to continue exploring our latest baby & kids collections.
+
+            </p>
+
+            <form>
+
+                <div class="auth-form-group">
+
+                    <label>Email Address</label>
+
+                    <input type="email" placeholder="Enter your email" required>
+
+                </div>
+
+                <div class="auth-form-group">
+
+                    <label>Password</label>
+
+                    <div class="auth-password-field">
+
+                        <input type="password" id="loginPassword" placeholder="Enter your password" required>
+
+                        <button type="button" class="auth-password-toggle" onclick="togglePassword('loginPassword', this)">
+
+                            <i class="fa-regular fa-eye"></i>
+
+                        </button>
+
+                    </div>
+
+                </div>
+
+                <div class="auth-options">
+
+                    <label>
+
+                        <input type="checkbox">
+
+                        Remember Me
+
+                    </label>
+
+                    <a href="#">
+
+                        Forgot Password?
+
+                    </a>
+
+                </div>
+
+                <button class="primary-btn">
+
+                    Sign In
+
+                </button>
+
+            </form>
+
+            <div class="auth-divider">
+
+                <span>Or continue with</span>
+
+            </div>
+
+
+            <div class="social-login">
+
+                <!-- Google -->
+
+                <a href="#" class="social-btn google-btn">
+
+                    <img src="images/google-logo.svg" alt="Google">
+
+                </a>
+
+                <!-- Facebook -->
+
+                <a href="#" class="social-btn facebook-btn">
+
+                    <i class="fa-brands fa-facebook-f"></i>
+
+                </a>
+
+                <!-- Apple -->
+
+                <a href="#" class="social-btn apple-btn">
+
+                    <i class="fa-brands fa-apple"></i>
+
+                </a>
+
+            </div>
+
+            <div class="auth-footer">
+
+                Don't have an account?
+
+                <a href="register.html">
+
+                    Create Account
+
+                </a>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <script src="js/main.js"></script>
+</body>
+
+</html>

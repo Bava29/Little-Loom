@@ -16,12 +16,18 @@ function togglePassword(inputId, button) {
 }
 
 document.addEventListener("DOMContentLoaded", () => {
+
     const root = document.documentElement;
     const body = document.body;
     const themeStorageKey = "little-loom-theme";
     const rtlStorageKey = "little-loom-rtl";
+    const scrollStorageKey = `little-loom-scroll-y:${window.location.pathname}`;
     const darkModeClass = "ll-dark-mode";
     const rtlModeClass = "ll-rtl-mode";
+
+    if ("scrollRestoration" in history) {
+        history.scrollRestoration = "manual";
+    }
 
     const theme = {
         dark: window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches,
@@ -44,6 +50,92 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     };
 
+    const readSessionState = (key) => {
+        try {
+            return sessionStorage.getItem(key);
+        } catch (error) {
+            return null;
+        }
+    };
+
+    const writeSessionState = (key, value) => {
+        try {
+            sessionStorage.setItem(key, value);
+        } catch (error) {
+            // Session storage can also be blocked in private browsing modes.
+        }
+    };
+
+    const getScrollElement = () => {
+        const docEl = document.scrollingElement || document.documentElement;
+        const body = document.body;
+
+        if (docEl && docEl.scrollHeight > docEl.clientHeight + 1) {
+            return docEl;
+        }
+
+        if (body && body.scrollHeight > window.innerHeight + 1) {
+            return body;
+        }
+
+        return docEl;
+    };
+
+    const getScrollTop = (el) => {
+        if (!el) return 0;
+        return el === window ? (window.scrollY || window.pageYOffset || 0) : (el.scrollTop || 0);
+    };
+
+    const setScrollTop = (el, scrollY, behavior = "auto") => {
+        if (!el) return;
+
+        if (el === window) {
+            window.scrollTo({ top: scrollY, behavior });
+            return;
+        }
+
+        if (typeof el.scrollTo === "function") {
+            el.scrollTo({ top: scrollY, behavior });
+            return;
+        }
+
+        el.scrollTop = scrollY;
+    };
+
+    const saveScrollPosition = () => {
+        const scrollElement = getScrollElement();
+
+        writeSessionState(
+            scrollStorageKey,
+            String(getScrollTop(scrollElement))
+        );
+    };
+
+    const restoreScrollPosition = () => {
+        const storedScrollY = readSessionState(scrollStorageKey);
+        if (storedScrollY === null) return;
+
+        const scrollY = Number(storedScrollY);
+        if (Number.isNaN(scrollY)) return;
+
+        let attempts = 0;
+        const maxAttempts = 6;
+
+        const tryRestore = () => {
+            attempts += 1;
+            const el = getScrollElement();
+            setScrollTop(el, scrollY);
+
+            // Check if scroll was actually applied; if not, retry
+            if (getScrollTop(el) < 1 && scrollY > 0 && attempts < maxAttempts) {
+                const delays = [0, 150, 400, 800, 1200, 2000];
+                const delay = delays[attempts - 1] || 2000;
+                setTimeout(tryRestore, delay);
+            }
+        };
+
+        tryRestore();
+    };
 
     const setThemeIcon = (button, isDark) => {
         const icon = button?.querySelector("i");
@@ -123,6 +215,12 @@ document.addEventListener("DOMContentLoaded", () => {
         looseRtlButtons.forEach((button) => {
             button.setAttribute("aria-label", "Toggle RTL mode");
             button.setAttribute("type", button.getAttribute("type") || "button");
+            const icon = button.querySelector("i");
+            if (icon) {
+                icon.className = "fa-solid fa-right-left";
+            } else {
+                button.innerHTML = '<i class="fa-solid fa-right-left"></i>';
+            }
         });
     };
 
@@ -145,6 +243,20 @@ document.addEventListener("DOMContentLoaded", () => {
 
     applyTheme(theme.dark);
     applyRtl(theme.rtl);
+    restoreScrollPosition();
+    const scrollElement = getScrollElement();
+    const scrollEventTarget = scrollElement === body ? body : window;
+
+    window.addEventListener("load", restoreScrollPosition);
+    window.addEventListener("pageshow", restoreScrollPosition);
+    window.addEventListener("pagehide", saveScrollPosition);
+    window.addEventListener("beforeunload", saveScrollPosition);
+    scrollEventTarget.addEventListener("scroll", saveScrollPosition, { passive: true });
+    document.addEventListener("visibilitychange", () => {
+        if (document.visibilityState === "hidden") {
+            saveScrollPosition();
+        }
+    });
 
     document.querySelectorAll(".dark-mode-toggle, .theme-toggle").forEach((button) => {
         button.addEventListener("click", () => {
@@ -165,17 +277,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (scrollTopBtn) {
         const updateScrollButton = () => {
-            scrollTopBtn.classList.toggle("show", window.scrollY > 300);
+            scrollTopBtn.classList.toggle("show", getScrollTop(getScrollElement()) > 300);
         };
 
-        window.addEventListener("scroll", updateScrollButton, { passive: true });
+        scrollEventTarget.addEventListener("scroll", updateScrollButton, { passive: true });
         updateScrollButton();
 
         scrollTopBtn.addEventListener("click", () => {
-            window.scrollTo({
-                top: 0,
-                behavior: "smooth"
-            });
+            setScrollTop(getScrollElement(), 0, "smooth");
         });
     }
 
@@ -286,8 +395,8 @@ document.addEventListener("DOMContentLoaded", () => {
                 entry.target.classList.add("ll-reveal-visible");
             });
         }, {
-            threshold: 0.22,
-            rootMargin: "0px 0px -8% 0px"
+            threshold: 0.12,
+            rootMargin: "0px 0px 12% 0px"
         });
 
     const llCounterObserver = llReduceMotion
@@ -352,7 +461,7 @@ document.addEventListener("DOMContentLoaded", () => {
         return "up";
     };
 
-    const llStaggerChildren = (container, mode = "up") => {
+    const llStaggerChildren = (container, mode = "up", delayStep = 120) => {
         if (!container || llIsExcluded(container)) return;
 
         const children = Array.from(container.children).filter((child) => child.nodeType === Node.ELEMENT_NODE);
@@ -374,7 +483,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 variant = "scale";
             }
 
-            llRegisterReveal(child, variant, Math.min(index * 120, 900));
+            llRegisterReveal(child, variant, Math.min(index * delayStep, 900));
         });
     };
 
@@ -426,14 +535,13 @@ document.addEventListener("DOMContentLoaded", () => {
         ".custom-order-card",
         ".auth-card",
         ".custom-parallax-content",
+        ".shopcatalog-filter-card",
+        ".shopcatalog-toolbar",
         ".season-content",
         ".littleloom-trust-content",
         ".promise",
         ".occasion",
-        ".best-product-content",
-        ".footer-column",
-        ".footer-logo",
-        ".footer-bottom"
+        ".best-product-content"
     ];
 
     llRevealBlocks.forEach((selector) => {
@@ -442,7 +550,7 @@ document.addEventListener("DOMContentLoaded", () => {
             if (element.matches(".hero-two-wrapper, .about-story-wrapper, .about-makers-wrapper, .schooluniform-collection-wrapper, .seasonfeature-wrapper, .sizemeasure-wrapper, .contact-wrapper, .custom-parallax, .littleloom-trust-wrapper, .season-wrapper, .cta-wrapper, .about-final-cta-wrapper, .kids-fashion-wrapper")) {
                 return;
             }
-            if (element.closest(".category-wrapper, .why-wrapper, .featured-wrapper, .shop-age-wrapper, .best-sellers-grid, .testimonial-wrapper, .hero-stats, .about-story-counter-area, .about-journey-timeline, .about-values-grid, .about-highlights-wrapper, .about-trust-wrapper, .about-makers-list, .kidswear-category-grid, .babywear-showcase-grid, .giftset-showcase-grid, .kids-fashion-features, .kids-fashion-gallery, .schooluniform-collection-features, .schooluniform-collection-gallery, .schoolcategory-showcase-grid, .uniformexcellence-wrapper, .uniformexcellence-features, .seasoncollection-grid, .seasonfeature-list, .seasonbenefit-grid, .sizechart-grid, .sizecare-grid, .contact-info-wrapper, .contact-form-grid, .custom-order-form-grid, .auth-form-grid, .cta-buttons, .kidswear-final-cta-buttons, .schooluniformcta-buttons, .seasoncta-buttons, .sizeguidecta-buttons, .about-final-cta-actions, .footer-wrapper, .footer-links, .footer-social, .footer-contact")) {
+            if (element.closest(".category-wrapper, .why-wrapper, .featured-wrapper, .shop-age-wrapper, .best-sellers-grid, .testimonial-wrapper, .hero-stats, .about-story-counter-area, .about-journey-timeline, .about-values-grid, .about-highlights-wrapper, .about-trust-wrapper, .about-makers-list, .kidswear-category-grid, .babywear-showcase-grid, .giftset-showcase-grid, .kids-fashion-features, .kids-fashion-gallery, .schooluniform-collection-features, .schooluniform-collection-gallery, .schoolcategory-showcase-grid, .uniformexcellence-wrapper, .uniformexcellence-features, .seasoncollection-grid, .seasonfeature-list, .seasonbenefit-grid, .sizechart-grid, .sizecare-grid, .contact-info-wrapper, .contact-form-grid, .custom-order-form-grid, .auth-form-grid, .cta-buttons, .kidswear-final-cta-buttons, .schooluniformcta-buttons, .seasoncta-buttons, .sizeguidecta-buttons, .about-final-cta-actions, .footer-wrapper, .footer-links, .footer-social, .footer-contact, .shopcatalog-wrapper")) {
                 return;
             }
 
@@ -482,6 +590,7 @@ document.addEventListener("DOMContentLoaded", () => {
         ".giftset-showcase-grid",
         ".kids-fashion-features",
         ".kids-fashion-gallery",
+        ".shopcatalog-grid",
         ".schooluniform-collection-features",
         ".schooluniform-collection-gallery",
         ".schoolcategory-showcase-grid",
@@ -501,17 +610,15 @@ document.addEventListener("DOMContentLoaded", () => {
         ".schooluniformcta-buttons",
         ".seasoncta-buttons",
         ".sizeguidecta-buttons",
-        ".about-final-cta-actions",
-        ".footer-wrapper",
-        ".footer-links",
-        ".footer-social",
-        ".footer-contact"
+        ".about-final-cta-actions"
     ];
 
     llStaggerGroups.forEach((selector) => {
         document.querySelectorAll(selector).forEach((container) => {
             if (llIsExcluded(container)) return;
-            llStaggerChildren(container);
+
+            const isShopCatalogGrid = container.matches(".shopcatalog-grid");
+            llStaggerChildren(container, "up", isShopCatalogGrid ? 70 : 120);
         });
     });
 
@@ -585,4 +692,437 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         });
     });
+});
+
+document.addEventListener("DOMContentLoaded", () => {
+    /*=====================================
+        Shop Catalog Interactions
+    =====================================*/
+    const llShopCatalogSection = document.querySelector(".shopcatalog");
+    if (!llShopCatalogSection) return;
+
+    const llShopCatalogGrid = document.querySelector(".shopcatalog-grid");
+    const llShopCatalogSearchInput = document.querySelector(".ll-shop-search-input");
+    const llShopCatalogSortSelect = document.querySelector(".shopcatalog-sort");
+    const llShopCatalogResetButton = document.querySelector(".shopcatalog-reset-btn");
+    const llShopCatalogCount = document.querySelector(".ll-shop-product-count");
+    const llShopCatalogChipWrap = document.querySelector(".ll-shop-filter-chips");
+    const llShopCatalogFilterInputs = Array.from(
+        document.querySelectorAll('.shopcatalog-filter input[data-ll-shop-filter]')
+    );
+
+    if (!llShopCatalogGrid || !llShopCatalogSortSelect || !llShopCatalogCount || !llShopCatalogChipWrap) {
+        return;
+    }
+
+    const llShopCatalogCards = Array.from(llShopCatalogGrid.querySelectorAll(".shopcatalog-card")).map((card, index) => {
+        const llShopCatalogName = String(
+            card.dataset.name || card.querySelector("h3")?.textContent || ""
+        ).trim().toLowerCase();
+
+        return {
+            element: card,
+            sourceIndex: index,
+            name: llShopCatalogName,
+            age: String(card.dataset.age || "").trim().toLowerCase(),
+            gender: String(card.dataset.gender || "").trim().toLowerCase(),
+            season: String(card.dataset.season || "").trim().toLowerCase(),
+            size: String(card.dataset.size || "").trim().toLowerCase(),
+            price: Number(card.dataset.price || 0),
+            popular: String(card.dataset.popular || "").toLowerCase() === "true",
+            newest: String(card.dataset.new || "").toLowerCase() === "true"
+        };
+    });
+
+    const llShopCatalogState = {
+        search: "",
+        sort: llShopCatalogSortSelect.value || "default",
+        filters: {
+            age: new Set(),
+            gender: new Set(),
+            season: new Set(),
+            size: new Set(),
+            price: null
+        }
+    };
+
+    const llShopCatalogLabelMap = {
+        age: {
+            "0-2": "0-2 Years",
+            "3-5": "3-5 Years",
+            "6-8": "6-8 Years",
+            "9-12": "9-12 Years"
+        },
+        gender: {
+            boys: "Boys",
+            girls: "Girls",
+            unisex: "Unisex"
+        },
+        season: {
+            summer: "Summer",
+            winter: "Winter",
+            festive: "Festive"
+        },
+        size: {
+            s: "S",
+            m: "M",
+            l: "L",
+            xl: "XL"
+        }
+    };
+
+    const llShopCatalogPriceLabelMap = {
+        "0-499": "Below \u20B9500",
+        "500-1000": "\u20B9500 - \u20B91000",
+        "1001-1500": "\u20B91000 - \u20B91500",
+        "1501-999999": "Above \u20B91500"
+    };
+
+    const llShopCatalogFilterOrder = ["age", "gender", "season", "size", "price"];
+
+    const llShopCatalogReadState = () => {
+        llShopCatalogState.search = String(llShopCatalogSearchInput?.value || "").trim().toLowerCase();
+        llShopCatalogState.sort = llShopCatalogSortSelect.value || "default";
+
+        Object.keys(llShopCatalogState.filters).forEach((group) => {
+            if (llShopCatalogState.filters[group] instanceof Set) {
+                llShopCatalogState.filters[group].clear();
+            }
+        });
+        llShopCatalogState.filters.price = null;
+
+        llShopCatalogFilterInputs.forEach((input) => {
+            if (!input.checked) return;
+
+            const group = String(input.dataset.llShopFilter || "").toLowerCase();
+            const value = String(input.dataset.llShopValue || "").trim().toLowerCase();
+
+            if (group === "price") {
+                llShopCatalogState.filters.price = {
+                    min: Number(input.dataset.llShopMin || 0),
+                    max: Number(input.dataset.llShopMax || 0)
+                };
+                return;
+            }
+
+            if (llShopCatalogState.filters[group] instanceof Set && value) {
+                llShopCatalogState.filters[group].add(value);
+            }
+        });
+    };
+
+    const llShopCatalogGetPriceChipLabel = (priceFilter) => {
+        if (!priceFilter) return "";
+        return llShopCatalogPriceLabelMap[`${priceFilter.min}-${priceFilter.max}`] || "";
+    };
+
+    const llShopCatalogMatchesCard = (card) => {
+        if (llShopCatalogState.search && !card.name.includes(llShopCatalogState.search)) {
+            return false;
+        }
+
+        if (llShopCatalogState.filters.age.size && !llShopCatalogState.filters.age.has(card.age)) {
+            return false;
+        }
+
+        if (llShopCatalogState.filters.gender.size && !llShopCatalogState.filters.gender.has(card.gender)) {
+            return false;
+        }
+
+        if (llShopCatalogState.filters.season.size && !llShopCatalogState.filters.season.has(card.season)) {
+            return false;
+        }
+
+        if (llShopCatalogState.filters.size.size && !llShopCatalogState.filters.size.has(card.size)) {
+            return false;
+        }
+
+        if (llShopCatalogState.filters.price) {
+            const { min, max } = llShopCatalogState.filters.price;
+            if (card.price < min || card.price > max) {
+                return false;
+            }
+        }
+
+        return true;
+    };
+
+    const llShopCatalogSortCards = (cards) => {
+        const llShopCatalogSortedCards = cards.slice();
+
+        llShopCatalogSortedCards.sort((a, b) => {
+            switch (llShopCatalogState.sort) {
+                case "newest":
+                    return Number(b.newest) - Number(a.newest) || a.sourceIndex - b.sourceIndex;
+                case "popular":
+                    return Number(b.popular) - Number(a.popular) || a.sourceIndex - b.sourceIndex;
+                case "price-asc":
+                    return a.price - b.price || a.sourceIndex - b.sourceIndex;
+                case "price-desc":
+                    return b.price - a.price || a.sourceIndex - b.sourceIndex;
+                default:
+                    return a.sourceIndex - b.sourceIndex;
+            }
+        });
+
+        return llShopCatalogSortedCards;
+    };
+
+    const llShopCatalogUpdateCounter = (count) => {
+        llShopCatalogCount.textContent = String(count);
+    };
+
+    const llShopCatalogRenderChips = () => {
+        const llShopCatalogChipNodes = [];
+
+        llShopCatalogFilterOrder.forEach((group) => {
+            if (group === "price") {
+                const priceFilter = llShopCatalogState.filters.price;
+                if (!priceFilter) return;
+
+                const chip = document.createElement("span");
+                chip.className = "ll-shop-filter-chip";
+                chip.textContent = llShopCatalogGetPriceChipLabel(priceFilter);
+
+                const removeButton = document.createElement("button");
+                removeButton.type = "button";
+                removeButton.setAttribute("aria-label", "Remove price filter");
+                removeButton.innerHTML = "&times;";
+                removeButton.addEventListener("click", () => {
+                    llShopCatalogFilterInputs.forEach((input) => {
+                        if (String(input.dataset.llShopFilter || "").toLowerCase() === "price") {
+                            input.checked = false;
+                        }
+                    });
+                    llShopCatalogRender();
+                });
+
+                chip.appendChild(removeButton);
+                llShopCatalogChipNodes.push(chip);
+                return;
+            }
+
+            const values = Array.from(llShopCatalogState.filters[group] || []);
+            values.forEach((value) => {
+                const chip = document.createElement("span");
+                chip.className = "ll-shop-filter-chip";
+                chip.textContent = `${group === "age" ? "Age : " : ""}${llShopCatalogLabelMap[group]?.[value] || value}`;
+
+                const removeButton = document.createElement("button");
+                removeButton.type = "button";
+                removeButton.setAttribute("aria-label", `Remove ${llShopCatalogLabelMap[group]?.[value] || value} filter`);
+                removeButton.innerHTML = "&times;";
+                removeButton.addEventListener("click", () => {
+                    llShopCatalogFilterInputs.forEach((input) => {
+                        const inputGroup = String(input.dataset.llShopFilter || "").toLowerCase();
+                        const inputValue = String(input.dataset.llShopValue || "").trim().toLowerCase();
+                        if (inputGroup === group && inputValue === value) {
+                            input.checked = false;
+                        }
+                    });
+                    llShopCatalogRender();
+                });
+
+                chip.appendChild(removeButton);
+                llShopCatalogChipNodes.push(chip);
+            });
+        });
+
+        llShopCatalogChipWrap.replaceChildren(...llShopCatalogChipNodes);
+        llShopCatalogChipWrap.hidden = llShopCatalogChipNodes.length === 0;
+    };
+
+    const llShopCatalogRender = () => {
+        llShopCatalogReadState();
+
+        const llShopCatalogSortedCards = llShopCatalogSortCards(llShopCatalogCards);
+        let llShopCatalogVisibleCount = 0;
+
+        llShopCatalogSortedCards.forEach((card) => {
+            const isVisible = llShopCatalogMatchesCard(card);
+            card.element.classList.toggle("ll-shop-hidden", !isVisible);
+            if (isVisible) {
+                llShopCatalogVisibleCount += 1;
+            }
+        });
+
+        llShopCatalogGrid.replaceChildren(...llShopCatalogSortedCards.map((card) => card.element));
+        llShopCatalogUpdateCounter(llShopCatalogVisibleCount);
+        llShopCatalogRenderChips();
+    };
+
+    const llShopCatalogResetFilters = () => {
+        llShopCatalogFilterInputs.forEach((input) => {
+            input.checked = false;
+        });
+
+        if (llShopCatalogSearchInput) {
+            llShopCatalogSearchInput.value = "";
+        }
+
+        llShopCatalogSortSelect.value = "default";
+        llShopCatalogRender();
+    };
+
+    llShopCatalogSearchInput?.addEventListener("input", llShopCatalogRender);
+    llShopCatalogSortSelect.addEventListener("change", llShopCatalogRender);
+
+    llShopCatalogFilterInputs.forEach((input) => {
+        input.addEventListener("change", llShopCatalogRender);
+    });
+
+    llShopCatalogResetButton?.addEventListener("click", llShopCatalogResetFilters);
+
+    llShopCatalogRender();
+});
+
+document.addEventListener("DOMContentLoaded", () => {
+    /*=====================================
+        Shop Filter Panel
+    =====================================*/
+    const llShopFilterSection = document.querySelector(".shopcatalog");
+    const llShopFilterWrapper = document.querySelector(".shopcatalog-wrapper");
+    const llShopFilterSidebar = document.querySelector(".shopcatalog-filter");
+    const llShopFilterProducts = document.querySelector(".shopcatalog-products");
+    const llShopFilterToggle = document.querySelector(".ll-shop-filter-toggle");
+    const llShopFilterPanel = document.querySelector(".ll-shop-filter-panel");
+    const llShopFilterPanelInner = document.querySelector(".ll-shop-filter-panel-inner");
+    const llShopFilterOverlay = document.querySelector(".ll-shop-filter-overlay");
+    const llShopFilterCloseButton = document.querySelector(".ll-shop-filter-close");
+
+    if (
+        !llShopFilterSection ||
+        !llShopFilterWrapper ||
+        !llShopFilterSidebar ||
+        !llShopFilterProducts ||
+        !llShopFilterToggle ||
+        !llShopFilterPanel ||
+        !llShopFilterPanelInner ||
+        !llShopFilterOverlay ||
+        !llShopFilterCloseButton
+    ) {
+        return;
+    }
+
+    const llShopFilterMediaQuery = window.matchMedia("(max-width: 991px)");
+
+    const llShopFilterMoveSidebarIntoPanel = () => {
+        if (llShopFilterSidebar.parentElement !== llShopFilterPanelInner) {
+            llShopFilterPanelInner.appendChild(llShopFilterSidebar);
+        }
+    };
+
+    const llShopFilterRestoreSidebar = () => {
+        if (llShopFilterSidebar.parentElement !== llShopFilterWrapper) {
+            llShopFilterWrapper.insertBefore(llShopFilterSidebar, llShopFilterProducts);
+        }
+    };
+
+    const llShopFilterClosePanel = () => {
+        llShopFilterPanel.classList.remove("is-active");
+        llShopFilterOverlay.classList.remove("is-active");
+        llShopFilterOverlay.hidden = true;
+        llShopFilterPanel.setAttribute("aria-hidden", "true");
+        llShopFilterToggle.setAttribute("aria-expanded", "false");
+        document.body.classList.remove("ll-shop-filter-open");
+    };
+
+    const llShopFilterOpenPanel = () => {
+        if (!llShopFilterMediaQuery.matches) return;
+
+        llShopFilterMoveSidebarIntoPanel();
+        llShopFilterOverlay.hidden = false;
+        llShopFilterPanel.classList.add("is-active");
+        llShopFilterPanel.setAttribute("aria-hidden", "false");
+        llShopFilterToggle.setAttribute("aria-expanded", "true");
+        document.body.classList.add("ll-shop-filter-open");
+
+        requestAnimationFrame(() => {
+            llShopFilterOverlay.classList.add("is-active");
+        });
+    };
+
+    const llShopFilterSyncLayout = () => {
+        if (llShopFilterMediaQuery.matches) {
+            llShopFilterMoveSidebarIntoPanel();
+        } else {
+            llShopFilterClosePanel();
+            llShopFilterRestoreSidebar();
+        }
+    };
+
+    llShopFilterToggle.addEventListener("click", () => {
+        if (llShopFilterPanel.classList.contains("is-active")) {
+            llShopFilterClosePanel();
+        } else {
+            llShopFilterOpenPanel();
+        }
+    });
+
+    llShopFilterCloseButton.addEventListener("click", llShopFilterClosePanel);
+    llShopFilterOverlay.addEventListener("click", llShopFilterClosePanel);
+
+    document.addEventListener("keydown", (event) => {
+        if (event.key === "Escape" && llShopFilterPanel.classList.contains("is-active")) {
+            llShopFilterClosePanel();
+        }
+    });
+
+    if (typeof llShopFilterMediaQuery.addEventListener === "function") {
+        llShopFilterMediaQuery.addEventListener("change", llShopFilterSyncLayout);
+    } else if (typeof llShopFilterMediaQuery.addListener === "function") {
+        llShopFilterMediaQuery.addListener(llShopFilterSyncLayout);
+    }
+
+    llShopFilterSyncLayout();
+});
+
+/*=====================================
+        Home 2 Testimonial Slider
+======================================*/
+
+const home2Testimonial = new Swiper(".home2-testimonial-slider", {
+
+    effect: "fade",
+
+    fadeEffect: {
+        crossFade: true
+    },
+
+    loop: true,
+
+    speed: 1000,
+
+    spaceBetween: 30,
+
+    grabCursor: true,
+
+    centeredSlides: true,
+
+    autoplay: {
+
+        delay: 5000,
+
+        disableOnInteraction: false,
+
+        pauseOnMouseEnter: true,
+
+    },
+
+    pagination: {
+
+        el: ".home2-pagination",
+
+        clickable: true,
+
+    },
+
+    navigation: {
+
+        nextEl: ".home2-next",
+
+        prevEl: ".home2-prev",
+
+    },
+
 });

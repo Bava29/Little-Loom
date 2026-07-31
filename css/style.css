@@ -528,20 +528,20 @@ span {
 @media (min-width:1025px) {
 
     html[dir="rtl"] .navbar {
-        direction: ltr;
-        justify-content: space-between;
+        direction: rtl;
     }
 
     html[dir="rtl"] .logo {
-        order: 3;
+        order: 1;
     }
 
     html[dir="rtl"] .nav-panel {
-        order: 1;
-        flex-direction: row;
-        justify-content: space-between;
+        order: 2;
+        flex-direction: row-reverse;
+        justify-content: flex-start;
         gap: 28px;
         min-width: 0;
+        direction: ltr;
     }
 
     html[dir="rtl"] .nav-menu {
@@ -560,6 +560,16 @@ span {
         margin-right: 0;
         flex-direction: row-reverse;
         flex-shrink: 0;
+    }
+
+    html[dir="rtl"] .nav-toggle {
+        margin-left: 0;
+        margin-right: auto;
+        transform: translateX(-10px);
+    }
+
+    html[dir="rtl"] .navbar {
+        justify-content: flex-start;
     }
 
     html[dir="rtl"] .dropdown-menu {
@@ -10636,6 +10646,7 @@ input[type="file"] {
         left: 0;
         transform: translateX(-100%);
         box-shadow: 12px 0 40px rgba(0, 0, 0, .12);
+        direction: ltr;
     }
 
     .nav-panel::-webkit-scrollbar {
@@ -10758,6 +10769,13 @@ input[type="file"] {
     html[dir="rtl"] .nav-right {
         display: flex;
         flex-direction: row-reverse;
+        justify-content: flex-start;
+        text-align: right;
+    }
+
+    html[dir="rtl"] .nav-right .secondary-btn,
+    html[dir="rtl"] .nav-right .primary-btn {
+        text-align: center;
     }
 
     .theme-toggle,

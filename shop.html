@@ -1,0 +1,1197 @@
+﻿<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+
+    <!-- Basic Meta -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="Little Loom is a premium baby and kids clothing store offering stylish outfits, school uniforms, seasonal collections, gift sets, and custom order solutions with comfort and quality.">
+    <meta name="keywords"
+        content="Little Loom, Baby Clothing, Kids Fashion, School Uniforms, Gift Sets, Children's Clothing, Custom Orders">
+    <meta name="author" content="Little Loom">
+
+    <!-- Title -->
+    <title>Little Loom</title>
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="images/favicon.png">
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Mulish:wght@300;400;500;600;700;800&family=Sora:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css">
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="css/style.css">
+
+</head>
+
+<body>
+
+    <header class="header">
+
+        <div class="container">
+
+            <nav class="navbar">
+
+                <!-- Logo -->
+
+                <a href="index.html" class="logo">
+                    <img src="images/logo.png" alt="Little Loom">
+                </a>
+
+                <button class="nav-toggle" type="button" aria-label="Toggle navigation" aria-expanded="false"
+                    aria-controls="primaryNavigation">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+
+                <!-- Navigation -->
+
+                <div class="nav-panel">
+
+                    <button class="nav-close" type="button" aria-label="Close Menu">
+                        <i class="fa-solid fa-xmark"></i>
+                    </button>
+
+
+                    <ul class="nav-menu" id="primaryNavigation">
+
+                        <li class="dropdown">
+                            <a href="index.html" class="nav-link dropdown-toggle" aria-haspopup="true"
+                                aria-expanded="false">
+                                Home
+                                <i class="fa-solid fa-chevron-down"></i>
+                            </a>
+
+                            <ul class="dropdown-menu">
+                                <li><a href="index.html">Home 1</a></li>
+                                <li><a href="home-2.html">Home 2</a></li>
+                            </ul>
+                        </li>
+
+                        <li>
+                            <a href="about.html">About</a>
+                        </li>
+
+                        <li class="dropdown">
+
+                            <button type="button" class="nav-link dropdown-toggle" aria-haspopup="true"
+                                aria-expanded="false">
+                                Collections
+                                <i class="fa-solid fa-chevron-down"></i>
+                            </button>
+
+                            <ul class="dropdown-menu">
+                                <li><a href="kids-wear.html">kids Wear</a></li>
+                                <li><a href="school.html">School Uniforms</a></li>
+                                <li><a href="season.html">Seasonal Collection</a></li>
+                                <li><a href="size.html">Size Guide</a></li>
+                            </ul>
+
+                        </li>
+
+                        <li>
+                            <a href="shop.html">Shop</a>
+                        </li>
+
+                        <li>
+                            <a href="contact.html">Contact</a>
+                        </li>
+
+                    </ul>
+
+                    <!-- Right Side -->
+
+                    <div class="nav-right">
+
+                        <button class="theme-toggle">
+                            <i class="fa-regular fa-moon"></i>
+                        </button>
+
+                        <button class="rtl-toggle">
+                            <i class="fa-solid fa-globe"></i>
+                        </button>
+
+                        <a href="login.html" class="secondary-btn">
+                            Login
+                        </a>
+
+                        <a href="custom-order.html" class="primary-btn">
+                            Custom Order
+                        </a>
+
+                    </div>
+
+                </div>
+
+                <div class="nav-overlay" aria-hidden="true"></div>
+
+            </nav>
+
+        </div>
+
+    </header>
+
+
+
+
+    <!--=====================================
+        Inner Banner Start
+======================================-->
+
+    <section class="page-banner shop-banner">
+
+        <div class="container">
+
+            <div class="page-banner-content">
+
+                <h1>Shop</h1>
+
+                <ul>
+
+                    <li>
+                        <a href="index.html">Home</a>
+                    </li>
+
+                    <li>
+                        <i class="fa-solid fa-angle-right"></i>
+                    </li>
+
+                    <li>Shop</li>
+
+                </ul>
+
+            </div>
+
+        </div>
+
+    </section>
+
+    <!--=====================================
+        Inner Banner End
+======================================-->
+
+    <!--=====================================
+        Shop Catalog Start
+======================================-->
+
+    <section class="shopcatalog">
+
+        <div class="container">
+
+            <div class="shopcatalog-wrapper">
+
+                <!--==============================
+                    Filter Sidebar
+            ==============================-->
+
+                <aside class="shopcatalog-filter">
+
+                    <div class="shopcatalog-filter-card">
+
+                        <h3>Filter Products</h3>
+
+                        <!-- Age -->
+
+                        <div class="shopcatalog-filter-group">
+
+                            <h4>Age</h4>
+
+                            <label><input type="checkbox" data-ll-shop-filter="age" data-ll-shop-value="0-2"> 0–2
+                                Years</label>
+
+                            <label><input type="checkbox" data-ll-shop-filter="age" data-ll-shop-value="3-5"> 3–5
+                                Years</label>
+
+                            <label><input type="checkbox" data-ll-shop-filter="age" data-ll-shop-value="6-8"> 6–8
+                                Years</label>
+
+                            <label><input type="checkbox" data-ll-shop-filter="age" data-ll-shop-value="9-12"> 9–12
+                                Years</label>
+
+                        </div>
+
+                        <!-- Gender -->
+
+                        <div class="shopcatalog-filter-group">
+
+                            <h4>Gender</h4>
+
+                            <label><input type="checkbox" data-ll-shop-filter="gender" data-ll-shop-value="boys">
+                                Boys</label>
+
+                            <label><input type="checkbox" data-ll-shop-filter="gender" data-ll-shop-value="girls">
+                                Girls</label>
+
+                            <label><input type="checkbox" data-ll-shop-filter="gender" data-ll-shop-value="unisex">
+                                Unisex</label>
+
+                        </div>
+
+                        <!-- Season -->
+
+                        <div class="shopcatalog-filter-group">
+
+                            <h4>Season</h4>
+
+                            <label><input type="checkbox" data-ll-shop-filter="season" data-ll-shop-value="summer">
+                                Summer</label>
+
+                            <label><input type="checkbox" data-ll-shop-filter="season" data-ll-shop-value="winter">
+                                Winter</label>
+
+                            <label><input type="checkbox" data-ll-shop-filter="season" data-ll-shop-value="festive">
+                                Festive</label>
+
+                        </div>
+
+                        <!-- Size -->
+
+                        <div class="shopcatalog-filter-group">
+
+                            <h4>Size</h4>
+
+                            <label><input type="checkbox" data-ll-shop-filter="size" data-ll-shop-value="s"> S</label>
+
+                            <label><input type="checkbox" data-ll-shop-filter="size" data-ll-shop-value="m"> M</label>
+
+                            <label><input type="checkbox" data-ll-shop-filter="size" data-ll-shop-value="l"> L</label>
+
+                            <label><input type="checkbox" data-ll-shop-filter="size" data-ll-shop-value="xl"> XL</label>
+
+                        </div>
+
+                        <!-- Price -->
+
+                        <div class="shopcatalog-filter-group">
+
+                            <h4>Price</h4>
+
+                            <label><input type="radio" name="price" data-ll-shop-filter="price" data-ll-shop-min="0"
+                                    data-ll-shop-max="499"> Below ₹500</label>
+
+                            <label><input type="radio" name="price" data-ll-shop-filter="price" data-ll-shop-min="500"
+                                    data-ll-shop-max="1000"> ₹500 – ₹1000</label>
+
+                            <label><input type="radio" name="price" data-ll-shop-filter="price" data-ll-shop-min="1001"
+                                    data-ll-shop-max="1500"> ₹1000 – ₹1500</label>
+
+                            <label><input type="radio" name="price" data-ll-shop-filter="price" data-ll-shop-min="1501"
+                                    data-ll-shop-max="999999"> Above ₹1500</label>
+
+                        </div>
+
+                        <button class="shopcatalog-reset-btn" type="button">
+
+                            Reset Filters
+
+                        </button>
+
+                    </div>
+
+                </aside>
+
+                <!--==============================
+                    Product Area
+            ==============================-->
+
+                <div class="shopcatalog-products">
+
+                    <!-- Active filter chips -->
+
+                    <div class="ll-shop-filter-chips" hidden></div>
+
+                    <div class="shopcatalog-toolbar">
+
+                        <p>
+
+                            Showing
+                            <span class="ll-shop-product-count">15</span>
+                            Products
+
+                        </p>
+
+                        <div class="ll-shop-toolbar-controls">
+
+                            <!-- Live search -->
+
+                            <input type="search" class="ll-shop-search-input" placeholder="Search products"
+                                aria-label="Search products by name">
+
+                            <!-- Responsive Filter Toggle -->
+
+                            <button type="button" class="ll-shop-filter-toggle" aria-expanded="false"
+                                aria-controls="llShopFilterPanel">
+                                Filters
+                            </button>
+
+                            <select class="shopcatalog-sort" aria-label="Sort products">
+
+                                <option value="default" selected>Default</option>
+
+                                <option value="newest">Newest</option>
+
+                                <option value="popular">Popular</option>
+
+                                <option value="price-asc">Price Low to High</option>
+
+                                <option value="price-desc">Price High to Low</option>
+
+                            </select>
+
+                        </div>
+
+                    </div>
+
+                    <div class="shopcatalog-grid">
+
+                        <!-- Product 1 -->
+
+                        <article class="shopcatalog-card" data-name="Organic Cotton Dress" data-age="3-5"
+                            data-gender="girls" data-season="summer" data-size="m" data-price="899" data-popular="true"
+                            data-new="true">
+
+                            <div class="shopcatalog-image">
+
+                                <img src="images/shop-1.jpg" alt="Organic Cotton Dress">
+
+                            </div>
+
+                            <div class="shopcatalog-content">
+
+                                <h3>Cotton Dress</h3>
+
+                                <p>Age: 3–5 Years</p>
+
+                                <span>₹899</span>
+
+                                <div class="shopcatalog-buttons">
+
+                                    <a href="custom-order.html" class="shopcatalog-enquire-btn">
+
+                                        Enquire Now
+
+                                    </a>
+
+                                    <a href="product-details.html" class="shopcatalog-details-btn">
+
+                                        View Details
+
+                                    </a>
+
+                                </div>
+
+                            </div>
+
+                        </article>
+
+                        <!-- Product 2 -->
+
+                        <article class="shopcatalog-card" data-name="Printed Boys T-Shirt" data-age="6-8"
+                            data-gender="boys" data-season="summer" data-size="s" data-price="749" data-popular="true"
+                            data-new="false">
+
+                            <div class="shopcatalog-image">
+
+                                <img src="images/shop-2.jpg" alt="Printed Boys T-Shirt">
+
+                            </div>
+
+                            <div class="shopcatalog-content">
+
+                                <h3>Printed Boys T-Shirt</h3>
+
+                                <p>Age: 6–8 Years</p>
+
+                                <span>₹749</span>
+
+                                <div class="shopcatalog-buttons">
+
+                                    <a href="custom-order.html" class="shopcatalog-enquire-btn">
+
+                                        Enquire Now
+
+                                    </a>
+
+                                    <a href="product-details.html" class="shopcatalog-details-btn">
+
+                                        View Details
+
+                                    </a>
+
+                                </div>
+
+                            </div>
+
+                        </article>
+
+                        <!-- Product 3 -->
+
+                        <article class="shopcatalog-card" data-name="Floral Party Frock" data-age="3-5"
+                            data-gender="girls" data-season="festive" data-size="m" data-price="1199"
+                            data-popular="true" data-new="true">
+
+                            <div class="shopcatalog-image">
+
+                                <img src="images/shop-3.jpg" alt="Floral Party Frock">
+
+                            </div>
+
+                            <div class="shopcatalog-content">
+
+                                <h3>Floral Party Frock</h3>
+
+                                <p>Age: 4–6 Years</p>
+
+                                <span>₹1,199</span>
+
+                                <div class="shopcatalog-buttons">
+
+                                    <a href="custom-order.html" class="shopcatalog-enquire-btn">
+
+                                        Enquire Now
+
+                                    </a>
+
+                                    <a href="product-details.html" class="shopcatalog-details-btn">
+
+                                        View Details
+
+                                    </a>
+
+                                </div>
+
+                            </div>
+
+                        </article>
+
+                        <!-- Product 4 -->
+
+                        <article class="shopcatalog-card" data-name="Baby Romper Set" data-age="0-2"
+                            data-gender="unisex" data-season="summer" data-size="s" data-price="699" data-popular="true"
+                            data-new="true">
+
+                            <div class="shopcatalog-image">
+
+                                <img src="images/shop-4.jpg" alt="Baby Romper Set">
+
+                            </div>
+
+                            <div class="shopcatalog-content">
+
+                                <h3>Baby Romper Set</h3>
+
+                                <p>Age: 0–2 Years</p>
+
+                                <span>₹699</span>
+
+                                <div class="shopcatalog-buttons">
+
+                                    <a href="custom-order.html" class="shopcatalog-enquire-btn">
+                                        Enquire Now
+                                    </a>
+
+                                    <a href="product-details.html" class="shopcatalog-details-btn">
+                                        View Details
+                                    </a>
+
+                                </div>
+
+                            </div>
+
+                        </article>
+
+                        <!-- Product 5 -->
+
+                        <article class="shopcatalog-card" data-name="School Uniform Set" data-age="9-12"
+                            data-gender="boys" data-season="winter" data-size="l" data-price="1299" data-popular="true"
+                            data-new="false">
+
+                            <div class="shopcatalog-image">
+
+                                <img src="images/shop-5.jpg" alt="School Uniform Set">
+
+                            </div>
+
+                            <div class="shopcatalog-content">
+
+                                <h3>School Uniform Set</h3>
+
+                                <p>Age: 6–10 Years</p>
+
+                                <span>₹1,299</span>
+
+                                <div class="shopcatalog-buttons">
+
+                                    <a href="custom-order.html" class="shopcatalog-enquire-btn">
+                                        Enquire Now
+                                    </a>
+
+                                    <a href="product-details.html" class="shopcatalog-details-btn">
+                                        View Details
+                                    </a>
+
+                                </div>
+
+                            </div>
+
+                        </article>
+
+                        <!-- Product 6 -->
+
+                        <article class="shopcatalog-card" data-name="Summer Casual Wear" data-age="6-8"
+                            data-gender="unisex" data-season="summer" data-size="m" data-price="999"
+                            data-popular="false" data-new="true">
+
+                            <div class="shopcatalog-image">
+
+                                <img src="images/shop-6.jpg" alt="Summer Casual Wear">
+
+                            </div>
+
+                            <div class="shopcatalog-content">
+
+                                <h3>Summer Casual Wear</h3>
+
+                                <p>Age: 5–8 Years</p>
+
+                                <span>₹999</span>
+
+                                <div class="shopcatalog-buttons">
+
+                                    <a href="custom-order.html" class="shopcatalog-enquire-btn">
+                                        Enquire Now
+                                    </a>
+
+                                    <a href="product-details.html" class="shopcatalog-details-btn">
+                                        View Details
+                                    </a>
+
+                                </div>
+
+                            </div>
+
+                        </article>
+
+
+                        <!-- Product 7 -->
+
+                        <article class="shopcatalog-card" data-name="Winter Hoodie Set" data-age="9-12"
+                            data-gender="boys" data-season="winter" data-size="l" data-price="1499" data-popular="true"
+                            data-new="false">
+
+                            <div class="shopcatalog-image">
+
+                                <img src="images/shop-7.jpg" alt="Winter Hoodie Set">
+
+                            </div>
+
+                            <div class="shopcatalog-content">
+
+                                <h3>Winter Hoodie Set</h3>
+
+                                <p>Age: 7–10 Years</p>
+
+                                <span>₹1,499</span>
+
+                                <div class="shopcatalog-buttons">
+
+                                    <a href="custom-order.html" class="shopcatalog-enquire-btn">
+                                        Enquire Now
+                                    </a>
+
+                                    <a href="product-details.html" class="shopcatalog-details-btn">
+                                        View Details
+                                    </a>
+
+                                </div>
+
+                            </div>
+
+                        </article>
+
+                        <!-- Product 8 -->
+
+                        <article class="shopcatalog-card" data-name="Denim Dungaree" data-age="0-2" data-gender="unisex"
+                            data-season="summer" data-size="s" data-price="1099" data-popular="false" data-new="true">
+
+                            <div class="shopcatalog-image">
+
+                                <img src="images/shop-8.jpg" alt="Denim Dungaree">
+
+                            </div>
+
+                            <div class="shopcatalog-content">
+
+                                <h3>Denim Dungaree</h3>
+
+                                <p>Age: 2–4 Years</p>
+
+                                <span>₹1,099</span>
+
+                                <div class="shopcatalog-buttons">
+
+                                    <a href="custom-order.html" class="shopcatalog-enquire-btn">
+                                        Enquire Now
+                                    </a>
+
+                                    <a href="product-details.html" class="shopcatalog-details-btn">
+                                        View Details
+                                    </a>
+
+                                </div>
+
+                            </div>
+
+                        </article>
+
+                        <!-- Product 9 -->
+
+                        <article class="shopcatalog-card" data-name="Ethnic Festive Dress" data-age="6-8"
+                            data-gender="girls" data-season="festive" data-size="m" data-price="1699"
+                            data-popular="true" data-new="true">
+
+                            <div class="shopcatalog-image">
+
+                                <img src="images/shop-9.jpg" alt="Ethnic Festive Dress">
+
+                            </div>
+
+                            <div class="shopcatalog-content">
+
+                                <h3>Festive Dress</h3>
+
+                                <p>Age: 5–7 Years</p>
+
+                                <span>₹1,699</span>
+
+                                <div class="shopcatalog-buttons">
+
+                                    <a href="custom-order.html" class="shopcatalog-enquire-btn">
+                                        Enquire Now
+                                    </a>
+
+                                    <a href="product-details.html" class="shopcatalog-details-btn">
+                                        View Details
+                                    </a>
+
+                                </div>
+
+                            </div>
+
+                        </article>
+
+                        <!-- Product 10 -->
+
+                        <article class="shopcatalog-card" data-name="Girls Cotton Top" data-age="3-5"
+                            data-gender="girls" data-season="summer" data-size="s" data-price="799" data-popular="false"
+                            data-new="false">
+
+                            <div class="shopcatalog-image">
+
+                                <img src="images/shop-10.jpg" alt="Girls Cotton Top">
+
+                            </div>
+
+                            <div class="shopcatalog-content">
+
+                                <h3>Girls Cotton Top</h3>
+
+                                <p>Age: 4–6 Years</p>
+
+                                <span>₹799</span>
+
+                                <div class="shopcatalog-buttons">
+
+                                    <a href="custom-order.html" class="shopcatalog-enquire-btn">
+                                        Enquire Now
+                                    </a>
+
+                                    <a href="product-details.html" class="shopcatalog-details-btn">
+                                        View Details
+                                    </a>
+
+                                </div>
+
+                            </div>
+
+                        </article>
+
+                        <!-- Product 11 -->
+
+                        <article class="shopcatalog-card" data-name="Kids Tracksuit" data-age="9-12"
+                            data-gender="unisex" data-season="winter" data-size="xl" data-price="1299"
+                            data-popular="true" data-new="false">
+
+                            <div class="shopcatalog-image">
+
+                                <img src="images/shop-11.jpg" alt="Kids Tracksuit">
+
+                            </div>
+
+                            <div class="shopcatalog-content">
+
+                                <h3>Kids Tracksuit</h3>
+
+                                <p>Age: 8–12 Years</p>
+
+                                <span>₹1,299</span>
+
+                                <div class="shopcatalog-buttons">
+
+                                    <a href="custom-order.html" class="shopcatalog-enquire-btn">
+                                        Enquire Now
+                                    </a>
+
+                                    <a href="product-details.html" class="shopcatalog-details-btn">
+                                        View Details
+                                    </a>
+
+                                </div>
+
+                            </div>
+
+                        </article>
+
+                        <!-- Product 12 -->
+
+                        <article class="shopcatalog-card" data-name="Premium Party Wear" data-age="6-8"
+                            data-gender="girls" data-season="festive" data-size="l" data-price="1899"
+                            data-popular="true" data-new="true">
+
+                            <div class="shopcatalog-image">
+
+                                <img src="images/shop-12.jpg" alt="Premium Party Wear">
+
+                            </div>
+
+                            <div class="shopcatalog-content">
+
+                                <h3>Premium Party Wear</h3>
+
+                                <p>Age: 6–9 Years</p>
+
+                                <span>₹1,899</span>
+
+                                <div class="shopcatalog-buttons">
+
+                                    <a href="custom-order.html" class="shopcatalog-enquire-btn">
+                                        Enquire Now
+                                    </a>
+
+                                    <a href="product-details.html" class="shopcatalog-details-btn">
+                                        View Details
+                                    </a>
+
+                                </div>
+
+                            </div>
+
+                        </article>
+
+                        <!-- Product 13 -->
+
+                        <article class="shopcatalog-card" data-name="Classic Polo Set" data-age="6-8" data-gender="boys"
+                            data-season="summer" data-size="m" data-price="1149" data-popular="false" data-new="false">
+
+                            <div class="shopcatalog-image">
+
+                                <img src="images/shop-13.jpg" alt="Classic Polo Set">
+
+                            </div>
+
+                            <div class="shopcatalog-content">
+
+                                <h3>Classic Polo Set</h3>
+
+                                <p>Age: 5–8 Years</p>
+
+                                <span>₹1,149</span>
+
+                                <div class="shopcatalog-buttons">
+
+                                    <a href="custom-order.html" class="shopcatalog-enquire-btn">
+                                        Enquire Now
+                                    </a>
+
+                                    <a href="product-details.html" class="shopcatalog-details-btn">
+                                        View Details
+                                    </a>
+
+                                </div>
+
+                            </div>
+
+                        </article>
+
+                        <!-- Product 14 -->
+
+                        <article class="shopcatalog-card" data-name="Princess Party Gown" data-age="3-5"
+                            data-gender="girls" data-season="festive" data-size="l" data-price="1799"
+                            data-popular="true" data-new="false">
+
+                            <div class="shopcatalog-image">
+
+                                <img src="images/shop-14.jpg" alt="Princess Party Gown">
+
+                            </div>
+
+                            <div class="shopcatalog-content">
+
+                                <h3>Princess Party Gown</h3>
+
+                                <p>Age: 4–7 Years</p>
+
+                                <span>₹1,799</span>
+
+                                <div class="shopcatalog-buttons">
+
+                                    <a href="custom-order.html" class="shopcatalog-enquire-btn">
+                                        Enquire Now
+                                    </a>
+
+                                    <a href="product-details.html" class="shopcatalog-details-btn">
+                                        View Details
+                                    </a>
+
+                                </div>
+
+                            </div>
+
+                        </article>
+
+                        <!-- Product 15 -->
+
+                        <article class="shopcatalog-card" data-name="Cotton Night Suit" data-age="6-8"
+                            data-gender="unisex" data-season="winter" data-size="xl" data-price="949"
+                            data-popular="false" data-new="true">
+
+                            <div class="shopcatalog-image">
+
+                                <img src="images/shop-15.jpg" alt="Cotton Night Suit">
+
+                            </div>
+
+                            <div class="shopcatalog-content">
+
+                                <h3>Cotton Night Suit</h3>
+
+                                <p>Age: 6–9 Years</p>
+
+                                <span>₹949</span>
+
+                                <div class="shopcatalog-buttons">
+
+                                    <a href="custom-order.html" class="shopcatalog-enquire-btn">
+                                        Enquire Now
+                                    </a>
+
+                                    <a href="product-details.html" class="shopcatalog-details-btn">
+                                        View Details
+                                    </a>
+
+                                </div>
+
+                            </div>
+
+                        </article>
+                    </div>
+                </div>
+
+                <!-- Responsive Filter Panel -->
+
+                <div class="ll-shop-filter-overlay" hidden></div>
+
+                <div class="ll-shop-filter-panel" id="llShopFilterPanel" aria-hidden="true">
+
+                    <button type="button" class="ll-shop-filter-close" aria-label="Close filters">
+                        <i class="fa-solid fa-xmark"></i>
+                    </button>
+
+                    <div class="ll-shop-filter-panel-inner"></div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+    <!--=====================================
+        Shop Catalog End
+======================================-->
+
+
+    <!--=====================================
+        Shop Pagination Start
+======================================-->
+
+    <section class="shoppagination">
+
+        <div class="container">
+
+            <div class="shoppagination-wrapper">
+
+                <a href="#" class="shoppagination-btn">
+                    <i class="fa-solid fa-angle-left"></i>
+                </a>
+
+                <a href="#" class="shoppagination-btn active">
+                    1
+                </a>
+
+                <a href="#" class="shoppagination-btn">
+                    2
+                </a>
+
+                <a href="#" class="shoppagination-btn">
+                    3
+                </a>
+
+                <a href="#" class="shoppagination-btn">
+                    <i class="fa-solid fa-angle-right"></i>
+                </a>
+
+            </div>
+
+        </div>
+
+    </section>
+
+    <!--=====================================
+        Shop Pagination End
+======================================-->
+
+    <!--=====================================
+        Shop CTA Start
+======================================-->
+
+    <section class="shopcta">
+
+        <div class="container">
+
+            <div class="shopcta-wrapper">
+
+                <div class="shopcta-content">
+
+                    <span class="shopcta-subtitle">
+
+                        Need Assistance?
+
+                    </span>
+
+                    <h2>
+
+                        Looking for the Perfect Outfit for Your Little One?
+
+                    </h2>
+
+                    <p>
+
+                        Whether you're shopping for everyday wear, school uniforms,
+                        festive outfits, or special occasions, our team is here to
+                        help you find the perfect fit with comfort, quality, and style.
+
+                    </p>
+
+                </div>
+
+                <div class="shopcta-buttons">
+
+                    <a href="contact.html" class="primary-btn">
+
+                        Contact Us
+
+                    </a>
+
+                    <a href="custom-order.html" class="secondary-btn">
+
+                        Custom Order
+
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+    <!--=====================================
+        Shop CTA End
+======================================-->
+
+
+
+    <!--=====================================
+            Footer Start
+======================================-->
+
+    <footer class="footer">
+
+        <div class="container">
+
+            <div class="footer-wrapper">
+
+                <!-- Footer Logo -->
+
+                <div class="footer-column">
+
+                    <a href="index.html" class="footer-logo">
+                        <img src="images/logo.png" alt="Little Loom">
+                    </a>
+
+                    <p>
+                        Little Loom brings together comfort, quality, and timeless style with thoughtfully crafted baby
+                        and kids clothing, school uniforms, and gifting collections made for every little moment.
+                    </p>
+
+                    <div class="footer-social">
+
+                        <a href="#"><i class="fa-brands fa-facebook-f"></i></a>
+
+                        <a href="#"><i class="fa-brands fa-instagram"></i></a>
+
+                        <a href="#"><i class="fa-brands fa-x-twitter"></i></a>
+
+                        <a href="#"><i class="fa-brands fa-pinterest-p"></i></a>
+
+                    </div>
+
+                </div>
+
+                <!-- Quick Links -->
+
+                <div class="footer-column">
+
+                    <h4>Quick Links</h4>
+
+                    <ul>
+
+                        <li><a href="#">Home</a></li>
+
+                        <li><a href="#">About</a></li>
+
+                        <li><a href="#">Shop</a></li>
+
+                        <li><a href="#">Contact</a></li>
+
+                        <li><a href="#">Custom Order</a></li>
+
+                    </ul>
+
+                </div>
+
+                <!-- Shop -->
+
+                <div class="footer-column">
+
+                    <h4>Shop</h4>
+
+                    <ul>
+
+                        <li><a href="#">Baby Clothing</a></li>
+
+                        <li><a href="#">Kids Clothing</a></li>
+
+                        <li><a href="#">School Uniforms</a></li>
+
+                        <li><a href="#">Seasonal Collection</a></li>
+
+                        <li><a href="#">Gift Sets</a></li>
+
+                    </ul>
+
+                </div>
+
+                <!-- Contact -->
+
+                <div class="footer-column">
+
+                    <h4>Contact</h4>
+
+                    <ul class="footer-contact">
+
+                        <li>
+                            <i class="fa-solid fa-location-dot"></i>
+                            Chennai, Tamil Nadu
+                        </li>
+
+                        <li>
+                            <i class="fa-solid fa-phone"></i>
+                            +91 98765 43210
+                        </li>
+
+                        <li>
+                            <i class="fa-solid fa-envelope"></i>
+                            hello@littleloom.com
+                        </li>
+
+                        <li>
+                            <i class="fa-solid fa-clock"></i>
+                            Mon - Sat : 9:00 AM - 7:00 PM
+                        </li>
+
+                    </ul>
+
+                </div>
+
+            </div>
+
+            <div class="footer-bottom">
+
+                <p>
+                    © 2026 Little Loom. All Rights Reserved.
+                </p>
+
+                <div class="footer-links">
+
+                    <a href="#">Privacy Policy</a>
+
+                    <a href="#">Terms & Conditions</a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </footer>
+
+    <!--=====================================
+            Footer End
+======================================-->
+
+    <!--=====================================
+        Scroll To Top Start
+======================================-->
+
+    <button class="scroll-top-btn">
+
+        <i class="fa-solid fa-arrow-up"></i>
+
+    </button>
+
+    <!--=====================================
+        Scroll To Top End
+======================================-->
+
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+
+    <script src="js/main.js"></script>
+</body>
+
+</html>
